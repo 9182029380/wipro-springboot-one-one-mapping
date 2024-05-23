@@ -55,4 +55,35 @@ public class TravelerService {
             travelerDto.setPassport(passportDto);
             return travelerDto;
     }
+
+    public TravelerDto getTravelerById(Long id) {
+        Traveler traveler = travelerRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Traveler not found"));
+
+        return mapToDto(traveler);
+    }
+
+    public TravelerDto updateTraveler(Long id, TravelerDto travelerDto) {
+        Traveler traveler = travelerRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Traveler not found"));
+
+        traveler.setName(travelerDto.getName());
+        traveler.setTravelerEmail(travelerDto.getTravelerEmail());
+        traveler.setTravelerPassword(travelerDto.getTravelerPassword());
+        traveler.setTravelerPhone(travelerDto.getTravelerPhone());
+        traveler.setTravelerAddress(travelerDto.getTravelerAddress());
+        Passport passport = traveler.getPassport();
+        passport.setPassportNumber(travelerDto.getPassport().getPassportNumber());
+        passport.setCountryofissue(travelerDto.getPassport().getCountryofissue());
+        passport.setDateofissue(travelerDto.getPassport().getDateofissue());
+        passport.setDateofexpiry(travelerDto.getPassport().getDateofexpiry());
+        passport.setVisainformation(travelerDto.getPassport().getVisainformation());
+
+        Traveler updatedTraveler = travelerRepository.save(traveler);
+        return mapToDto(updatedTraveler);
+    }
+
+    public void deleteTraveler(Long id) {
+        travelerRepository.deleteById(id);
+    }
 }

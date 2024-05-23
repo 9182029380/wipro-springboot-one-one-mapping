@@ -4,11 +4,7 @@ import com.wipro.OneOneMapping.dto.TravelerDto;
 import com.wipro.OneOneMapping.service.TravelerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -20,5 +16,17 @@ public class TravelerController {
     @PostMapping
     public TravelerDto addTraveler(@RequestBody TravelerDto travelerDto){
         return travelerService.addTraveler(travelerDto);
+    }
+    @GetMapping("/{id}")
+    public TravelerDto getTravelerById(@PathVariable Long id){
+        return travelerService.getTravelerById(id);
+    }
+    @PutMapping("/{id}")
+    public TravelerDto updateTraveler(@PathVariable Long id,@RequestBody TravelerDto travelerDto){
+        return travelerService.updateTraveler(id,travelerDto);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteTraveler(@PathVariable Long id){
+        travelerService.deleteTraveler(id);
     }
 }
